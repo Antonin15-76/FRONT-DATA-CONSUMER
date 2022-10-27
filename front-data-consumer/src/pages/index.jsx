@@ -4,6 +4,7 @@ import { Plus } from "mdi-material-ui";
 import React, { useEffect, useState } from 'react'
 import useDialog from "../Components/hooks/useDialog";
 import ActionsCell from "./ActionsCell";
+import Form from "./Form";
 
 const columns = [
     {
@@ -92,11 +93,11 @@ const Home = () => {
                             <DialogTitle id='draggable-dialog-title'>
                             Ajouter
                             </DialogTitle>
-                            {/* <Stack spacing={2} align='center' style={{ padding: '15px' }}>
-                            <Form formId={`${id}-add-form`} onSubmit={handleOnSubmit} externalValues={{ isSubmitting: mutateRes.loading, ...externalValues }} {...externalVariables} />
-                            {!mutateRes.loading && <ValidateButton form={`${id}-add-form`} title='gk' />}
-                            {mutateRes.loading && <CircularProgress sizePreset='md' />}
-                            </Stack> */}
+                             {/* <Stack spacing={2} align='center' style={{ padding: '15px' }}> */}
+                            <Form formId={'add-form'} />
+                            {/* {!mutateRes.loading && <ValidateButton form={`${id}-add-form`} title='gk' />} */}
+                            {/* {mutateRes.loading && <CircularProgress sizePreset='md' />} */}
+                            {/* </Stack>  */}
                             <DialogActions>
                                 {/* <Stack direction='row' justify='flex-end' spacing={2}>
                                     <CancelButton onClick={dialog.onClose} title='Annuler'  />

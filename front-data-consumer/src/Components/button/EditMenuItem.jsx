@@ -2,7 +2,7 @@ import * as React from 'react'
 import Pencil from 'mdi-material-ui/Pencil'
 import { MenuItem, ListItemIcon, ListItemText } from '@material-ui/core'
 
-const EditMenuItem: React.FC<any> = props => {
+const EditMenuItem = props => {
   const { onClick, text = 'Modifier', icon = Pencil, iconProps = {}, closeMenu, ...rest } = props
   const handleOnClick = () => {
     closeMenu()
