@@ -1,46 +1,64 @@
-import { AppBar, Box, IconButton, Paper, Toolbar } from "@material-ui/core"
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { AppBar, Box, Button, Dialog, DialogActions, DialogTitle, IconButton, Paper, Toolbar } from "@material-ui/core"
+import { DataGrid } from '@mui/x-data-grid';
+import { Plus } from "mdi-material-ui";
+import React, { useEffect, useState } from 'react'
+import useDialog from "../Components/hooks/useDialog";
+import ActionsCell from "./ActionsCell";
 
 const columns = [
     {
-        field: 'test',
-        headerName: 'Pseudo',
-        // valueGetter: (params) => {
-        //     console.log(params)
-        // },
+        field: 'Country',
+        headerName: 'Nationalité',
         flex: 1
     },
     {
-        field: 'value',
-        headerName: 'Nationalité',
+        field: 'Type',
+        headerName: 'Accusation',
         flex: 1
-    }
+    },
+    {
+        field: 'VIOLATED_ARTICLES',
+        headerName: 'Article violé',
+        flex: 1
+    },
+    {
+        field: 'Amount',
+        headerName: 'Montant amende',
+        flex: 1
+    },
+    {
+        headerName: 'Actions',
+        renderCell: (params) => {
+          return (
+              <ActionsCell {...params} />
+          )
+        }
+      }
 ]
 
 const Home = () => {
-    const array = [
-        {
-            id: 0,
-            test: "1",
-            value: 35
-        },
-        {
-            id: 1,
-            test: "2",
-            value: 856
-        },
-        {
-            id: 2,
-            test: "1",
-            value: 56
-        },
-        {
-            id: 3,
-            test: "1",
-            value: 745
-        }
-    ]
-    console.log(array)
+
+    const [data, setData] = useState(null)
+    const dialog = useDialog(false)
+
+    useEffect(() => {
+        fetch("https://ws-data-consuming.herokuapp.com/api/v1/fines")
+        .then(response => response.json())
+        .then(data => setData(data.message))
+      },[])
+
+      console.log(data)
+    const reformatedData = (data) => {
+        const rest = data?.map((x, idx) => {
+            return {
+                ...x,
+                id: idx
+            }
+        })
+        return rest
+    }
+
+    const newData = reformatedData(data)
 
     return (
         <>
@@ -54,17 +72,38 @@ const Home = () => {
                         sx={{ display: { xs: 'none', sm: 'block' } }}
                     >
                         MUI
+                        
                     </typographyClasses>
                     <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                        size="large"
-                        aria-label="show more"
-                        aria-haspopup="true"
-                        color="inherit"
+                          <IconButton
+                        onClick={dialog.handleOnClick} 
+                        // color='red'
+                        title='Ajouter'
+                    >
+                         <Plus fontSize='inherit' />
+                    </IconButton>
+                        <Dialog
+                            id='add'
+                            type='Add'
+                            title='Ajouter'
+                            open={dialog.open}
+                            onClose={dialog.handleOnClose}
                         >
-                        </IconButton>
-                    </Box>
+                            <DialogTitle id='draggable-dialog-title'>
+                            Ajouter
+                            </DialogTitle>
+                            {/* <Stack spacing={2} align='center' style={{ padding: '15px' }}>
+                            <Form formId={`${id}-add-form`} onSubmit={handleOnSubmit} externalValues={{ isSubmitting: mutateRes.loading, ...externalValues }} {...externalVariables} />
+                            {!mutateRes.loading && <ValidateButton form={`${id}-add-form`} title='gk' />}
+                            {mutateRes.loading && <CircularProgress sizePreset='md' />}
+                            </Stack> */}
+                            <DialogActions>
+                                {/* <Stack direction='row' justify='flex-end' spacing={2}>
+                                    <CancelButton onClick={dialog.onClose} title='Annuler'  />
+                                    <ValidateButton form={`${id}-add-form`} title='Valider' />
+                                </Stack> */}
+                            </DialogActions>
+                        </Dialog>            
                     </Toolbar>
                 </AppBar>
             </Box>
@@ -74,12 +113,12 @@ const Home = () => {
                     marginRight: '100px',
                     marginTop: '10px',
                     marginBottom: '10px',
-                    height: '2000px'
+                    height: '700px'
                 }} 
             >
              <DataGrid
               columns={columns}
-              rows={array || []}
+              rows={newData || []}
              />   
         </Paper>
     </>
