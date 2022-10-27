@@ -4,6 +4,7 @@ import { Plus } from "mdi-material-ui";
 import React, { useEffect, useState } from 'react'
 import useDialog from "../Components/hooks/useDialog";
 import ActionsCell from "./ActionsCell";
+import DeleteForm from "./Delete";
 import Form from "./Form";
 
 const columns = [
@@ -28,13 +29,21 @@ const columns = [
         flex: 1
     },
     {
-        headerName: 'Actions',
+        headerName: 'Suppresion',
         renderCell: (params) => {
           return (
-              <ActionsCell {...params} />
+              <DeleteForm {...params} />
           )
         }
-      }
+      },
+    // {
+    //     headerName: 'Actions',
+    //     renderCell: (params) => {
+    //       return (
+    //           <ActionsCell {...params} />
+    //       )
+    //     }
+    //   }
 ]
 
 const Home = () => {
