@@ -1,90 +1,49 @@
 import { Checkbox, FormControlLabel, Grid, TextField } from "@material-ui/core"
 import { useState } from "react";
+import useFetch from 'use-http'
+import { useLocalStorage } from "react-use"
 
 const Form = (props) => {
-    const { id, defaultValues, onSubmit } = props
+    const [token] = useLocalStorage('accessToken')
 
-    const [state, setState] = useState({
-    1: false,
-    4: false,
-    5: false,
-    6: false,
-    7: false,
-    8: false,
-    9: false,
-    10: false,
-    11: false,
-    12: false,
-    13: false,
-    14: false,
-    15: false,
-    16: false,
-    17: false,
-    18: false,
-    19: false,
-    20: false,
-    21: false,
-    22: false,
-    23: false,
-    24: false,
-    25: false,
-    26: false,
-    27: false,
-    28: false,
-    29: false,
-    30: false,
-    31: false,
-    32: false,
-    33: false,
-    34: false,
-    35: false,
-    36: false,
-    37: false,
-    38: false,
-    44: false,
-    46: false,
-    48: false,
-    58: false,
-    82: false,
-    88: false,
-    113: false,
-    114: false,
-    130: false,
-    157: false,
-    166: false,
-    321: false,
-    345: false,
-    16759: false,
-    32506: false,
-    113471: false
-  });
+    const { id, state, setCountry, setMontant, setState, setViolation, country, montant, violationType } = props
 
-  const handleOnChange = (event) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
-  };
-
-    const handleOnSubmit = () => {
-
-    }
+    const handleOnChange = (event) => {
+        console.log(event)
+        setState({
+          ...state,
+          [event.target.name]: event.target.checked,
+        });
+      };
+    
     return (
-        <form id submit={handleOnSubmit} style={{ padding: '15px' }}>
+        <form id={id} style={{ padding: '15px' }}>
             <Grid container>
                 <Grid item xs={4}>
                     <TextField
                     title="Type de violation"
+                    defaultValue={violationType}
+                    onChange={ (e) => {
+                        setViolation(e.target.value)
+                    }}
                     />
                 </Grid>
                 <Grid item xs={4}>
                     <TextField
                         title="Pays"
+                        defaultValue={country}
+                        onChange={ (e) => {
+                            setCountry(e.target.value)
+                        }}
                         />
                     </Grid>
                 <Grid item xs={4}>
                 <TextField
                     title="Montant Amende"
+                    defaultValue={montant}
+                    onChange={ (e) => {
+                        setMontant(e.target.value)
+                    }}
                     />
                 </Grid>
                 <Grid item xs={3}>
