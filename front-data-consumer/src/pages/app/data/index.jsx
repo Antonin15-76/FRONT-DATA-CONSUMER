@@ -1,11 +1,16 @@
-import { AppBar, Box, Button, Dialog, DialogActions, DialogTitle, IconButton, Paper, Toolbar } from "@material-ui/core"
+import { AppBar, Box, Button, Dialog, DialogActions, DialogTitle, IconButton, Paper, SpeedDial, SpeedDialAction, Stack, Toolbar } from "@material-ui/core"
+import { SpeedDialIcon } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import { Plus } from "mdi-material-ui";
 import React, { useEffect, useState } from 'react'
-import useDialog from "../Components/hooks/useDialog";
+import ValidateButton from "../../../Components/button/ValidateButton"
+import CancelButton from "../../../Components/button/CancelButton"
+import useDialog from "../../../Components/hooks/useDialog";
 import ActionsCell from "./ActionsCell";
 import DeleteForm from "./Delete";
 import Form from "./Form";
+import { useLocalStorage } from "react-use"
+import useFetch from 'use-http'
 
 const columns = [
     {
@@ -47,14 +52,15 @@ const columns = [
 ]
 
 const Home = () => {
+    const [token, setToken] = useLocalStorage('accessToken')
 
     const [data, setData] = useState(null)
     const dialog = useDialog(false)
 
     useEffect(() => {
-        fetch("https://ws-data-consuming.herokuapp.com/api/v1/fines")
+        fetch("https://ws-data-consuming.herokuapp.com/api/v1/fines", token)
         .then(response => response.json())
-        .then(data => setData(data.message))
+        .then(data => console.log(data))
       },[])
 
       console.log(data)
@@ -72,27 +78,16 @@ const Home = () => {
 
     return (
         <>
-             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static">
-                    <Toolbar>
-                    <typographyClasses
-                        variant="h6"
-                        // noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}
-                    >
-                        MUI
-                        
-                    </typographyClasses>
-                    <Box sx={{ flexGrow: 1 }} />
-                          <IconButton
+        <Box sx={{ height: 100, transform: 'translateZ(0px)', flexGrow: 1 }}>
+                <IconButton
                         onClick={dialog.handleOnClick} 
                         // color='red'
                         title='Ajouter'
+                        sx={{ position: 'absolute', bottom: 16, right: 16 }} 
                     >
                          <Plus fontSize='inherit' />
                     </IconButton>
-                        <Dialog
+                    <Dialog
                             id='add'
                             type='Add'
                             title='Ajouter'
@@ -103,20 +98,18 @@ const Home = () => {
                             Ajouter
                             </DialogTitle>
                              {/* <Stack spacing={2} align='center' style={{ padding: '15px' }}> */}
-                            <Form formId={'add-form'} />
+                              <Form formId={'add-form'} />
                             {/* {!mutateRes.loading && <ValidateButton form={`${id}-add-form`} title='gk' />} */}
                             {/* {mutateRes.loading && <CircularProgress sizePreset='md' />} */}
                             {/* </Stack>  */}
-                            <DialogActions>
-                                {/* <Stack direction='row' justify='flex-end' spacing={2}>
-                                    <CancelButton onClick={dialog.onClose} title='Annuler'  />
-                                    <ValidateButton form={`${id}-add-form`} title='Valider' />
-                                </Stack> */}
+                             <DialogActions>
+                                 <Stack direction='row' justify='flex-end' spacing={2}>
+                                    <CancelButton onClick={dialog.onClose } title='Annuler' />
+                                    {/* <ValidateButton form={`${id}-add-form`} title='Valider' /> */}
+                                </Stack>
                             </DialogActions>
                         </Dialog>            
-                    </Toolbar>
-                </AppBar>
-            </Box>
+        </Box>
         <Paper
                 style={{ 
                     marginLeft: '100px',
@@ -125,11 +118,11 @@ const Home = () => {
                     marginBottom: '10px',
                     height: '700px'
                 }} 
-            >
-             <DataGrid
+            > 
+             {/* <DataGrid
               columns={columns}
               rows={newData || []}
-             />   
+             />    */}
         </Paper>
     </>
     )

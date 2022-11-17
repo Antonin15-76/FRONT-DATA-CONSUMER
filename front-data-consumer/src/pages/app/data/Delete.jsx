@@ -1,7 +1,7 @@
 import { Dialog, DialogActions, DialogTitle, IconButton } from "@material-ui/core"
 import { Pencil, Delete } from 'mdi-material-ui'
-import useDialog from "../Components/hooks/useDialog"
-import ValidateButton from '../Components/button/ValidateButton'
+import useDialog from "../../../Components/hooks/useDialog"
+import ValidateButton from '../../../Components/button/ValidateButton'
 
 const DeleteForm = (props) => {
     const dialog = useDialog(false)

@@ -1,4 +1,4 @@
-import { useSnackbar as useSnackbarMUI } from 'notistack5'
+import { useSnackbar as useSnackbarMUI } from 'notistack'
 import { useMemo } from 'react'
 
 /**
