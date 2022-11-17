@@ -1,7 +1,7 @@
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core"
 import { Pencil, Delete } from 'mdi-material-ui'
-import useDialog from '../Components/hooks/useDialog'
-import Actions from '../Components/button/Actions'
+import useDialog from '../../../Components/hooks/useDialog'
+import Actions from '../../../Components/button/Actions'
 
 const ActionsCell = (props) => {
     const { row } = props
