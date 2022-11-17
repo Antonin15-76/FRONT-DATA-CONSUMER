@@ -1,16 +1,15 @@
 import { AppBar, Box, Button, Dialog, DialogActions, DialogTitle, IconButton, Paper, SpeedDial, SpeedDialAction, Stack, Toolbar } from "@material-ui/core"
-import { SpeedDialIcon } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import { Plus } from "mdi-material-ui";
 import React, { useEffect, useState } from 'react'
 import ValidateButton from "../../../Components/button/ValidateButton"
 import CancelButton from "../../../Components/button/CancelButton"
 import useDialog from "../../../Components/hooks/useDialog";
-import ActionsCell from "./ActionsCell";
 import DeleteForm from "./Delete";
 import Form from "./Form";
 import { useLocalStorage } from "react-use"
 import useFetch from 'use-http'
+import { useNavigate } from "react-router-dom"
 
 const columns = [
     {
@@ -56,9 +55,17 @@ const Home = () => {
     const [data, setData] = useState(null)
     const [dataAdd, setDataAdd] = useState(null)
     const dialog = useDialog(false)
+    const navigate = useNavigate()
+
     useEffect(() => {
         fetch('https://ws-data-consuming.herokuapp.com/api/v1/fines', { headers: { Authorization: `Bearer ${token}` }})
-        .then(response => response.json())
+        .then(response => {
+            if (response.status === 403) {
+                console.log('here')
+                navigate('/login')
+            }
+            response.json()
+        })
         .then(data => setData(data.results))
       },[])
 

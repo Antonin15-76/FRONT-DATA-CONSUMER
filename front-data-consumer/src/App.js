@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './pages'
-import Log from './pages/app/log'
+import Log from './pages/app/logger'
 import Applayout from './Components/menu/Applayout'
 
 function App() {
