@@ -1,5 +1,5 @@
 import { Dialog, DialogActions, DialogTitle, IconButton } from "@material-ui/core"
-import { Pencil, Delete } from 'mdi-material-ui'
+import { Delete } from 'mdi-material-ui'
 import useDialog from "../../../Components/hooks/useDialog"
 import ValidateButton from '../../../Components/button/ValidateButton'
 import { useLocalStorage } from "react-use"
@@ -9,7 +9,7 @@ import { useEffect } from "react"
 const DeleteForm = (props) => {
     const { row } = props
     const [token] = useLocalStorage('accessToken')
-    // const { post, response, loading, error } = useFetch('https://ws-data-consuming.herokuapp.com/api/v1/fines/', { method: "DELETE",  headers: { Authorization: `Bearer ${token}` }})
+    // const { post, response, loading, error } = useFetch(`https://ws-data-consuming.herokuapp.com/api/v1/fines/${row._id}`, { method: "DELETE",  headers: { Authorization: `Bearer ${token}` }})
     const dialog = useDialog(false)
         // DELETE request using fetch with async/await
          function deletePost() {

@@ -1,7 +1,7 @@
-import { AppBar, Box, Button, Dialog, DialogActions, DialogTitle, IconButton, Paper, SpeedDial, SpeedDialAction, Stack, Toolbar } from "@material-ui/core"
+import { Box, Dialog, DialogActions, DialogTitle, IconButton, Paper, Stack } from "@material-ui/core"
 import { DataGrid } from '@mui/x-data-grid';
 import { Plus } from "mdi-material-ui";
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import ValidateButton from "../../../Components/button/ValidateButton"
 import CancelButton from "../../../Components/button/CancelButton"
 import useDialog from "../../../Components/hooks/useDialog";
@@ -10,36 +10,48 @@ import Form from "./Form";
 import { useLocalStorage } from "react-use"
 import useFetch from 'use-http'
 import { useNavigate } from "react-router-dom"
+import { useMemo } from "react";
+import PutForm from "./PutForm";
 
 const columns = [
     {
         field: 'Country',
         headerName: 'Nationalité',
-        flex: 1
+        flex: 0.75
     },
     {
         field: 'Type',
         headerName: 'Accusation',
-        flex: 1
+        flex: 1.5
     },
     {
         field: 'VIOLATED_ARTICLES',
         headerName: 'Article violé',
-        flex: 1
+        flex: 0.5
     },
     {
         field: 'Amount',
         headerName: 'Montant amende',
-        flex: 1
+        flex: 0.5
+    },
+    {
+        headerName: 'Modification',
+        field: "modif",
+        renderCell: (params) => {
+          return (
+              <PutForm {...params} />
+          )
+        }
     },
     {
         headerName: 'Suppresion',
+        field: "delete",
         renderCell: (params) => {
           return (
               <DeleteForm {...params} />
           )
         }
-      },
+    }
     // {
     //     headerName: 'Actions',
     //     renderCell: (params) => {
@@ -52,91 +64,86 @@ const columns = [
 
 const Home = () => {
     const [token] = useLocalStorage('accessToken')
-    const [data, setData] = useState(null)
+    // const [data, setData] = useState(null)
     const [dataAdd, setDataAdd] = useState(null)
     const dialog = useDialog(false)
     const navigate = useNavigate()
 
-    useEffect(() => {
-        fetch('https://ws-data-consuming.herokuapp.com/api/v1/fines', { headers: { Authorization: `Bearer ${token}` }})
-        .then(response => {
-            if (response.status === 403) {
-                console.log('here')
-                navigate('/login')
-            }
-            response.json()
-        })
-        .then(data => setData(data.results))
-      },[])
+    const { get, data, response } = useFetch('https://ws-data-consuming.herokuapp.com/api/v1/fines', { headers: { Authorization: `Bearer ${token}` }})
 
-      console.log(data)
+    useMemo(() => {
+        get()  
+    }, [response])
+
+    if (response.data === "Forbidden") navigate('/login')
+
     const reformatedData = (data) => {
-        const rest = data?.map((x, idx) => {
+        const rest = data?.results?.map((x, idx) => {
             return {
                 ...x,
                 id: idx
             }
         })
         return rest
-    }
+    }    
 
     const newData = reformatedData(data)
 
     const { post: postAdd , response: responseAdd , loading: loadingAdd , error: errorAdd } = useFetch('https://ws-data-consuming.herokuapp.com/api/v1/fines', { headers: { Authorization: `Bearer ${token}` }})
 
     const [state, setState] = useState({
-    1: false,
-    4: false,
-    5: false,
-    6: false,
-    7: false,
-    8: false,
-    9: false,
-    10: false,
-    11: false,
-    12: false,
-    13: false,
-    14: false,
-    15: false,
-    16: false,
-    17: false,
-    18: false,
-    19: false,
-    20: false,
-    21: false,
-    22: false,
-    23: false,
-    24: false,
-    25: false,
-    26: false,
-    27: false,
-    28: false,
-    29: false,
-    30: false,
-    31: false,
-    32: false,
-    33: false,
-    34: false,
-    35: false,
-    36: false,
-    37: false,
-    38: false,
-    44: false,
-    46: false,
-    48: false,
-    58: false,
-    82: false,
-    88: false,
-    113: false,
-    114: false,
-    130: false,
-    157: false,
-    166: false,
-    321: false,
-    345: false,
-    16759: false,
-    32506: false,
-    113471: false
+    val1: false,
+    val2: false,
+    val5: false,
+    val6: false,
+    val7: false,
+    val8: false,
+    val9: false,
+    val10: false,
+    val11: false,
+    val12: false,
+    val13: false,
+    val14: false,
+    val15: false,
+    val16: false,
+    val17: false,
+    val18: false,
+    val19: false,
+    val20: false,
+    val21: false,
+    val22: false,
+    val23: false,
+    val24: false,
+    val25: false,
+    val26: false,
+    val27: false,
+    val28: false,
+    val29: false,
+    val30: false,
+    val31: false,
+    val32: false,
+    val33: false,
+    val34: false,
+    val35: false,
+    val36: false,
+    val37: false,
+    val38: false,
+    val44: false,
+    val46: false,
+    val48: false,
+    val58: false,
+    val82: false,
+    val88: false,
+    val113: false,
+    val114: false,
+    val130: false,
+    val157: false,
+    val166: false,
+    val321: false,
+    val345: false,
+    val16759: false,
+    val32506: false,
+    val113471: false
   });
 
   const [violationType, setViolation] = useState()
@@ -156,7 +163,6 @@ const Home = () => {
         <Box sx={{ height: 100, transform: 'translateZ(0px)', flexGrow: 1 }}>
                 <IconButton
                         onClick={dialog.handleOnClick} 
-                        // color='red'
                         title='Ajouter'
                         sx={{ position: 'absolute', bottom: 16, right: 16 }} 
                     >
@@ -172,21 +178,21 @@ const Home = () => {
                             <DialogTitle id='draggable-dialog-title'>
                             Ajouter
                             </DialogTitle>
-                             {/* <Stack spacing={2} align='center' style={{ padding: '15px' }}> */}
-                              <Form 
-                              id={'add-form'} 
-                              country={country} 
-                              setCountry={setCountry} 
-                              violationType={violationType} 
-                              setViolation={setViolation}
-                              montant={montant}
-                              setMontant={setMontant}
-                              state={state}
-                              setState={setState}
-                              />
+                             <Stack spacing={2} align='center' style={{ padding: '15px' }}>
+                                <Form 
+                                id={'add-form'} 
+                                country={country} 
+                                setCountry={setCountry} 
+                                violationType={violationType} 
+                                setViolation={setViolation}
+                                montant={montant}
+                                setMontant={setMontant}
+                                state={state}
+                                setState={setState}
+                                />
                             {/* {!mutateRes.loading && <ValidateButton form={`${id}-add-form`} title='gk' />} */}
                             {/* {mutateRes.loading && <CircularProgress sizePreset='md' />} */}
-                            {/* </Stack>  */}
+                            </Stack> 
                              <DialogActions>
                                  <Stack direction='row' justify='flex-end' spacing={2}>
                                     <CancelButton onClick={dialog.onClose } title='Annuler' />
@@ -195,37 +201,6 @@ const Home = () => {
                             </DialogActions>
                         </Dialog>            
         </Box>
-             {/* 
-                          <IconButton
-                        onClick={dialog.handleOnClick} 
-                        // color='red'
-                        title='Ajouter'
-                    >
-                         <Plus fontSize='inherit' />
-                    </IconButton>
-                        <Dialog
-                            id='add'
-                            type='Add'
-                            title='Ajouter'
-                            open={dialog.open}
-                            onClose={dialog.handleOnClose}
-                        >
-                            <DialogTitle id='draggable-dialog-title'>
-                            Ajouter
-                            </DialogTitle>
-                             {/* <Stack spacing={2} align='center' style={{ padding: '15px' }}> */}
-                            {/* <Form formId={'add-form'}>
-                            {/* {!mutateRes.loading && <ValidateButton form={`${id}-add-form`} title='gk' />} */}
-                            {/* {mutateRes.loading && <CircularProgress sizePreset='md' />} */}
-                            {/* </Stack>  */}
-                            {/* <DialogActions>
-                                {/* <Stack direction='row' justify='flex-end' spacing={2}>
-                                    <CancelButton onClick={dialog.onClose} title='Annuler'  />
-                                    <ValidateButton form={`${id}-add-form`} title='Valider' />
-                                </Stack> */}
-                            {/* </DialogActions>
-                        </Dialog>            
-                    */}
         <Paper
                 style={{ 
                     marginLeft: '100px',

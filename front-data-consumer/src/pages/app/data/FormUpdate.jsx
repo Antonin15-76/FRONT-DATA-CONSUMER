@@ -1,12 +1,17 @@
 import { Checkbox, FormControlLabel, Grid, TextField } from "@material-ui/core"
-import { useState } from "react";
+import { useState } from "react"
 import useFetch from 'use-http'
 import { useLocalStorage } from "react-use"
 
-const Form = (props) => {
+const FormUpdate = (props) => {
     const [token] = useLocalStorage('accessToken')
 
-    const { id, state, setCountry, setMontant, setState, setViolation, country, montant, violationType } = props
+    const { id, defaultValue } = props
+
+    const [violationType, setViolation] = useState(defaultValue.Type)
+  const [country, setCountry] = useState(defaultValue.country)
+  const [montant, setMontant] = useState(defaultValue.montant)
+
     const handleOnChange = (event) => {
         setState({
           ...state,
@@ -14,6 +19,61 @@ const Form = (props) => {
         });
       };
     
+      const [state, setState] = useState({
+        val1: defaultValue.Art_1 === 0 ? false : true,
+        val2: defaultValue.Art_2 === 0 ? false : true,
+        val5: defaultValue.Art_5 === 0 ? false : true,
+        val6: defaultValue.Art_6 === 0 ? false : true,
+        val7: defaultValue.Art_7 === 0 ? false : true,
+        val8: defaultValue.Art_8 === 0 ? false : true,
+        val9: defaultValue.Art_9 === 0 ? false : true,
+        val10: defaultValue.Art_10 === 0 ? false : true,
+        val11: defaultValue.Art_11 === 0 ? false : true,
+        val12: defaultValue.Art_12 === 0 ? false : true,
+        val13: defaultValue.Art_13 === 0 ? false : true,
+        val14: defaultValue.Art_14 === 0 ? false : true,
+        val15: defaultValue.Art_15 === 0 ? false : true,
+        val16: defaultValue.Art_16 === 0 ? false : true,
+        val17: defaultValue.Art_17 === 0 ? false : true,
+        val18: defaultValue.Art_18 === 0 ? false : true,
+        val19: defaultValue.Art_19 === 0 ? false : true,
+        val20: defaultValue.Art_20 === 0 ? false : true,
+        val21: defaultValue.Art_21 === 0 ? false : true,
+        val22: defaultValue.Art_22 === 0 ? false : true,
+        val23: defaultValue.Art_23 === 0 ? false : true,
+        val24: defaultValue.Art_24 === 0 ? false : true,
+        val25: defaultValue.Art_25 === 0 ? false : true,
+        val26: defaultValue.Art_26 === 0 ? false : true,
+        val27: defaultValue.Art_27 === 0 ? false : true,
+        val28: defaultValue.Art_28 === 0 ? false : true,
+        val29: defaultValue.Art_29 === 0 ? false : true,
+        val30: defaultValue.Art_30 === 0 ? false : true,
+        val31: defaultValue.Art_31 === 0 ? false : true,
+        val32: defaultValue.Art_32 === 0 ? false : true,
+        val33: defaultValue.Art_33 === 0 ? false : true,
+        val34: defaultValue.Art_34 === 0 ? false : true,
+        val35: defaultValue.Art_35 === 0 ? false : true,
+        val36: defaultValue.Art_36 === 0 ? false : true,
+        val37: defaultValue.Art_37 === 0 ? false : true,
+        val38: defaultValue.Art_38 === 0 ? false : true,
+        val44: defaultValue.Art_44 === 0 ? false : true,
+        val46: defaultValue.Art_46 === 0 ? false : true,
+        val48: defaultValue.Art_48 === 0 ? false : true,
+        val58: defaultValue.Art_58 === 0 ? false : true,
+        val82: defaultValue.Art_82 === 0 ? false : true,
+        val88: defaultValue.Art_88 === 0 ? false : true,
+        val113: defaultValue.Art_113 === 0 ? false : true,
+        val114: defaultValue.Art_114 === 0 ? false : true,
+        val130: defaultValue.Art_130 === 0 ? false : true,
+        val157: defaultValue.Art_157 === 0 ? false : true,
+        val166: defaultValue.Art_166 === 0 ? false : true,
+        val321: defaultValue.Art_321 === 0 ? false : true,
+        val345: defaultValue.Art_345 === 0 ? false : true,
+        val16759: defaultValue.Art_16759 === 0 ? false : true,
+        val32506: defaultValue.Art_32506 === 0 ? false : true,
+        val113471: defaultValue.Art_113471 === 0 ? false : true
+      });
+
     return (
         <form id={id} style={{ padding: '15px' }}>
             <Grid container>
@@ -69,7 +129,7 @@ const Form = (props) => {
                     <FormControlLabel control={<Checkbox checked={state.val10} name="val10" onChange={handleOnChange} />} label="Aticle 10" />
                 </Grid>
                 <Grid item xs={3}>
-                    <FormControlLabel control={<Checkbox checked={state.val11} name="val1" onChange={handleOnChange} />} label="Aticle 11" />
+                    <FormControlLabel control={<Checkbox checked={state.val11} name="val11" onChange={handleOnChange} />} label="Aticle 11" />
                 </Grid>
                 <Grid item xs={3}>
                     <FormControlLabel control={<Checkbox checked={state.val12} name="val12" onChange={handleOnChange} />} label="Aticle 12" />
@@ -205,4 +265,4 @@ const Form = (props) => {
     )
 }
 
-export default Form
+export default FormUpdate
