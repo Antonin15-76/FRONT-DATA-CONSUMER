@@ -2,11 +2,13 @@ import { IconButton, ListItemIcon, ListItemText, MenuItem } from "@material-ui/c
 import { forwardRef, Fragment, useMemo } from "react"
 import { Link } from "react-router-dom"
 import Home from "../../pages/app/data"
+import Map from "../../pages/app/map"
 import Infos from "../../pages/app/infos"
 
 const navItems = [
     { label: 'Accueil', to: '/app/infos', Icon: Infos, hasDivider: true },
     { label: 'Données', to: '/app/data', Icon: Home, hasDivider: true },
+    { label: 'Map', to: '/app/map', Icon: Map, hasDivider: true },
 ]
 
 const useNavigationItems = () => {

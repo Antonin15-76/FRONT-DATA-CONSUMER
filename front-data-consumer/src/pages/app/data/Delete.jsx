@@ -13,7 +13,7 @@ const DeleteForm = (props) => {
     const dialog = useDialog(false)
         // DELETE request using fetch with async/await
          function deletePost() {
-             fetch(`https://ws-data-consuming.herokuapp.com/api/v1/fines/${row._id}`, { method: "DELETE",  headers: { Authorization: `Bearer ${token}` }});
+             fetch(`http://localhost:5000/api/v1/fines/${row._id}`, { method: "DELETE",  headers: { Authorization: `Bearer ${token}` }});
             // setStatus('Delete successful');
         }
     

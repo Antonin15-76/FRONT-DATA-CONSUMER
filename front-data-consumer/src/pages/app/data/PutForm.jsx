@@ -11,7 +11,7 @@ import FormUpdate from "./FormUpdate"
 const PutForm = (props) => {
     const { row } = props
     const [token] = useLocalStorage('accessToken')
-    const { get, data, response } = useFetch('https://ws-data-consuming.herokuapp.com/api/v1/fines/' + row._id, { headers: { Authorization: `Bearer ${token}` }})
+    const { get, data, response } = useFetch('http://localhost:5000/api/v1/fines/' + row._id, { headers: { Authorization: `Bearer ${token}` }})
     const dialog = useDialog(false)
 
     useMemo(() => {

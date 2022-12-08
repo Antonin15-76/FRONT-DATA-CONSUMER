@@ -69,7 +69,7 @@ const Home = () => {
     const dialog = useDialog(false)
     const navigate = useNavigate()
 
-    const { get, data, response } = useFetch('https://ws-data-consuming.herokuapp.com/api/v1/fines', { headers: { Authorization: `Bearer ${token}` }})
+    const { get, data, response } = useFetch('http://localhost:5000/api/v1/fines', { headers: { Authorization: `Bearer ${token}` }})
 
     useMemo(() => {
         get()  

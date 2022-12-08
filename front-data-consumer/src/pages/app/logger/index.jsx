@@ -8,10 +8,12 @@ const Log = () => {
     if (token === undefined) setToken(null)
     
  useEffect(() => {
-        fetch('https://ws-data-consuming.herokuapp.com/api/v1/fines', { headers: { Authorization: `Bearer ${token}` }})
+        fetch('http://localhost:5000/api/v1/fines', { headers: { Authorization: `Bearer ${token}` }})
         .then(response => {
+            console.log(response)
             if (response.status === 403) {
-                return navigate('/login')
+                console.log('here')
+                return navigate('/loginForm')
             } else {
                 return navigate('/app/infos')
             }

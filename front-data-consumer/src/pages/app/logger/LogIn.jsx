@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const LogIn = () => {
+  console.log('here')
   const classes = useStyles()
   return (
     <div className={classes.background} style={{ height: '100%' }}>
@@ -32,7 +33,7 @@ const LogIn = () => {
 }
 
 const FormLogin = () => {
-  const { post, response, loading, error } = useFetch('https://ws-data-consuming.herokuapp.com/api/v1/login')
+  const { post, response, loading, error } = useFetch('http://localhost:5000/api/v1/login')
 
   const [username, setUsername ] = useState('')
   const [password, setPassword] = useState('')
